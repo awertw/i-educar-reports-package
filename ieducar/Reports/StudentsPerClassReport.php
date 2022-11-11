@@ -33,6 +33,16 @@ class StudentsPerClassReport extends Portabilis_Report_ReportCore
      */
     public function getSqlMainReport()
     {
+        $idade_inicial = ' AND TRUE ';
+        $idade_final = ' AND TRUE ';
+
+        if ($this->args['idade_inicial']) {
+            $idade_inicial = " AND fisica.data_nasc >= '{$this->args['idade_inicial']}'::timestamp without time zone ";
+        }
+
+        if ($this->args['idade_final']) {
+            $idade_final = " AND fisica.data_nasc <= '{$this->args['idade_final']}'::timestamp without time zone ";
+        }
         return "
 
             SELECT
@@ -45,6 +55,16 @@ class StudentsPerClassReport extends Portabilis_Report_ReportCore
                     CASE WHEN fisica.sexo = 'M' THEN 'Mas' ELSE 'Fem' END
                 ) AS sexo,
                 to_char(fisica.data_nasc,'dd/mm/yyyy') AS data_nasc,
+                extract(year from AGE(CURRENT_DATE, fisica.data_nasc)) AS idade_anos,
+				extract(month from AGE(CURRENT_DATE, fisica.data_nasc)) AS idade_meses,
+                (
+                    SELECT
+                    substr(cpf, 1, 3) || '.' ||
+                    substr(cpf, 4, 3) || '.' ||
+                    substr(cpf, 7, 3) || '-' ||
+                    substr(cpf, 10) as cpf
+                    FROM
+                    (select cast(fisica.cpf::varchar as varchar) as cpf)a),
                 nis_pis_pasep,
                 curso.nm_curso AS nome_curso,
                 turma.nm_turma AS nome_turma,
@@ -103,7 +123,7 @@ class StudentsPerClassReport extends Portabilis_Report_ReportCore
                 AND serie.cod_serie = escola_serie.ref_cod_serie
                 AND serie.ativo = 1
             INNER JOIN pmieducar.turma ON TRUE
-                AND turma.ref_ref_cod_escola = escola.cod_escola
+                AND turma.ref_ref_cod_escola = escola.cod_escola                
                 AND turma.ativo = 1
             INNER JOIN pmieducar.matricula_turma ON TRUE
                 AND matricula_turma.ref_cod_turma = turma.cod_turma
@@ -168,6 +188,8 @@ class StudentsPerClassReport extends Portabilis_Report_ReportCore
                         pmieducar.turma.cod_turma = '{$this->args['turma']}'
                     END
                 )
+                {$idade_inicial}
+                {$idade_final}
                 AND
                 (
                     CASE WHEN '{$this->args['dependencia']}' = 1 THEN
@@ -191,6 +213,10 @@ class StudentsPerClassReport extends Portabilis_Report_ReportCore
                         0
                     END
                 ),
+                (case 
+					when '{$this->args['idade_check']}' = 0 then sequencial_fechamento::varchar
+					else fisica.data_nasc::varchar
+    			end),
                 sequencial_fechamento,
                 nome_aluno
 

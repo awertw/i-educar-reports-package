@@ -32,7 +32,7 @@ class StudentsPerClassController extends Portabilis_Controller_ReportCoreControl
     public function form()
     {
         $this->inputsHelper()->dynamic(['ano', 'instituicao']);
-        $this->inputsHelper()->dynamic('escola', ['required' => false]);
+        $this->inputsHelper()->dynamic('escola', ['required' => false]) ;
         $this->inputsHelper()->dynamic('curso', ['required' => false]);
         $this->inputsHelper()->dynamic('serie', ['required' => false]);
         $this->inputsHelper()->dynamic('turma', ['required' => false]);
@@ -40,7 +40,14 @@ class StudentsPerClassController extends Portabilis_Controller_ReportCoreControl
         $this->inputsHelper()->checkbox('proerd', ['label' => 'Modelo PROERD?']);
         $this->inputsHelper()->date('data_inicial', ['required' => false, 'label' => 'Data inicial']);
         $this->inputsHelper()->date('data_final', ['required' => false, 'label' => 'Data final']);
+        
+        $this->inputsHelper()->checkbox('idade_check', ['label' => 'Filtrar alunos por idade']);
+        $options = ['label' => 'Idade inicial', 'required' => false, 'placeholder' => 'Data inicial'];
+        $this->inputsHelper()->date('idade_inicial', $options);
+        $options = ['label' => 'Idade final', 'required' => false, 'placeholder' => 'Data final'];
+        $this->inputsHelper()->date('idade_final', $options);
 
+        
         if ($GLOBALS['coreExt']['Config']->app->matricula->dependencia == 1) {
             $this->inputsHelper()->select('dependencia', [
                 'label' => 'Alunos com dependência',
@@ -86,6 +93,19 @@ class StudentsPerClassController extends Portabilis_Controller_ReportCoreControl
         $this->report->addArg('data_inicial', Portabilis_Date_Utils::brToPgSQL($this->getRequest()->data_inicial));
         $this->report->addArg('data_final', Portabilis_Date_Utils::brToPgSQL($this->getRequest()->data_final));
         $this->report->addArg('proerd', $this->getRequest()->proerd ? 1 : 0);
+        $this->report->addArg('idade_check', $this->getRequest()->idade_check ? 1 : 0);
+        if ($this->getRequest()->idade_inicial) {
+            $this->report->addArg('idade_inicial', Portabilis_Date_Utils::brToPgSQL($this->getRequest()->idade_inicial) . ' 00:00:00');
+        } else {
+            $this->report->addArg('idade_inicial', Portabilis_Date_Utils::brToPgSQL($this->getRequest()->idade_inicial));
+        }
+
+        if ($this->getRequest()->idade_final) {
+            $this->report->addArg('idade_final', Portabilis_Date_Utils::brToPgSQL($this->getRequest()->idade_final) . ' 23:59:59');
+        } else {
+            $this->report->addArg('idade_final', Portabilis_Date_Utils::brToPgSQL($this->getRequest()->idade_final));
+        }
+        
         $this->report->addArg('dependencia', (int) $this->getRequest()->dependencia);
     }
 }
