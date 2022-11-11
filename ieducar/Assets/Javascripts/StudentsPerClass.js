@@ -1,8 +1,8 @@
 $j("#idade_inicial").closest('tr').hide();
 $j("#idade_final").closest('tr').hide();
 
-$j("#idade").on('click', function(){
-	if($j('#idade_check').prop('checked')){
+$j("#idade_check").on('click', function(){	
+	if($j('#idade_check').prop('checked')){	
 		$j("#idade_inicial").closest('tr').show();
 		$j("#idade_final").closest('tr').show();
 		$j("#data_inicial").val("");

@@ -93,7 +93,7 @@ class StudentsPerClassController extends Portabilis_Controller_ReportCoreControl
         $this->report->addArg('data_inicial', Portabilis_Date_Utils::brToPgSQL($this->getRequest()->data_inicial));
         $this->report->addArg('data_final', Portabilis_Date_Utils::brToPgSQL($this->getRequest()->data_final));
         $this->report->addArg('proerd', $this->getRequest()->proerd ? 1 : 0);
-        $this->report->addArg('idade_check', $this->getRequest()->idade ? 1 : 0);
+        $this->report->addArg('idade_check', $this->getRequest()->idade_check ? 1 : 0);
         if ($this->getRequest()->idade_inicial) {
             $this->report->addArg('idade_inicial', Portabilis_Date_Utils::brToPgSQL($this->getRequest()->idade_inicial) . ' 00:00:00');
         } else {
