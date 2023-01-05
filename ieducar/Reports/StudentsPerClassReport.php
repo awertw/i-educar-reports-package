@@ -213,10 +213,12 @@ class StudentsPerClassReport extends Portabilis_Report_ReportCore
                         0
                     END
                 ),
-                (case 
-					when '{$this->args['idade_check']}' = 0 then sequencial_fechamento::varchar
-					else fisica.data_nasc::varchar
-    			end),
+                (
+                    CASE WHEN '{$this->args['idade_check']}' = 1 THEN
+                        fisica.data_nasc::varchar
+                    ELSE NULL 
+    			    END
+                ),
                 sequencial_fechamento,
                 nome_aluno
 
