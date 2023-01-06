@@ -130,15 +130,7 @@ class TeacherReportCardReport extends Portabilis_Report_ReportCore
             (CASE WHEN falta_aluno.tipo_falta = 1 THEN falta_geral.quantidade
             ELSE falta_componente_curricular.quantidade END)::varchar AS falta,
             view_componente_curricular.nome,
-            ( SELECT regra_avaliacao.tipo_nota
-                    FROM pmieducar.turma
-                    JOIN pmieducar.serie
-                    ON turma.ref_ref_cod_serie = serie.cod_serie
-                    JOIN modules.regra_avaliacao_serie_ano rasa on(serie.cod_serie = rasa.serie_id AND matricula.ano = rasa.ano_letivo)
-                    JOIN modules.regra_avaliacao on(rasa.regra_avaliacao_id = regra_avaliacao.id)
-                    WHERE matricula_turma.ref_cod_turma = turma.cod_turma
-                    LIMIT 1
-                    ) AS tipo_nota,
+
             CASE WHEN nota_componente_curricular.nota_arredondada ~ '^-?[0-9]+\.?[0-9]*$' THEN
                     replace(trunc(nota_componente_curricular.nota_arredondada::numeric, COALESCE(
                     ( SELECT regra_avaliacao.qtd_casas_decimais
@@ -205,7 +197,7 @@ class TeacherReportCardReport extends Portabilis_Report_ReportCore
 
             UNION ALL
 
-            (SELECT round(random()*1000), NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
+            (SELECT round(random()*1000), NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL
             FROM generate_series(1, {$linha}));
         ";
 
