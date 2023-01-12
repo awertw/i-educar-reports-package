@@ -1418,7 +1418,7 @@
 					<measure name="falta" class="java.lang.String">
 						<measureExpression><![CDATA[$F{falta}]]></measureExpression>
 					</measure>
-					<measure name="nome_modulo" class="java.lang.String" calculation="First">
+					<measure name="nome_modulo" class="java.lang.String">
 						<measureExpression><![CDATA[$F{nome_modulo}]]></measureExpression>
 					</measure>
 					<measure name="exame" class="java.lang.String">
