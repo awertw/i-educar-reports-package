@@ -10,7 +10,7 @@
 		<defaultValueExpression><![CDATA[0]]></defaultValueExpression>
 	</parameter>
 	<parameter name="ano" class="java.lang.Integer"/>
-	<parameter name="observacao" class="java.lang.String"/>
+	<parameter name="observacoes" class="java.lang.String"/>
 	<parameter name="motorista" class="java.lang.Integer"/>
 	<parameter name="data" class="java.lang.String"/>
 	<parameter name="database" class="java.lang.String"/>
@@ -174,12 +174,12 @@
 				<reportElement x="67" y="3" width="279" height="12" uuid="5366c781-60af-4c4c-b7d7-4da2c84c0c67"/>
 				<textElement>
 					<font fontName="DejaVu Sans" size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{observacao}]]></textFieldExpression>
+				</textElement>				
+				<textFieldExpression><![CDATA["Observações: " + URLDecoder.decode($P{observacoes}, "UTF-8")]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="0" y="3" width="67" height="12" uuid="346efedb-317a-499a-b49b-b5aa8bbccf99">
-					<printWhenExpression><![CDATA[$P{observacao} != ""]]></printWhenExpression>
+					<printWhenExpression><![CDATA[$P{observacoes} != ""]]></printWhenExpression>
 				</reportElement>
 				<textElement>
 					<font fontName="DejaVu Sans" size="9" isBold="true"/>

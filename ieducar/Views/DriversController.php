@@ -37,10 +37,10 @@ class DriversController extends Portabilis_Controller_ReportCoreController
             'label' => 'Data',
             'required' => true
         ]);
-        $this->inputsHelper()->text('observacao', [
+        $this->inputsHelper()->text('observacoes', [
             'required' => false,
-            'label' => 'Observação',
-            'placeholder' => 'Digite aqui uma observação',
+            'label' => 'Observações',
+            'placeholder' => 'Digite aqui suas observações',
             'max_length' => 65,
             'size' => 67,
             'inline' => false
@@ -55,8 +55,8 @@ class DriversController extends Portabilis_Controller_ReportCoreController
     {
         $this->report->addArg('instituicao', (int) $this->getRequest()->ref_cod_instituicao);
         $this->report->addArg('ano', (int) $this->getRequest()->ano);
-        $this->report->addArg('motorista', (int) $this->getRequest()->motorista);
-        $this->report->addArg('observacao', $this->getRequest()->observacao);
+        $this->report->addArg('motorista', (int) $this->getRequest()->motorista);        
+        $this->report->addArg('observacoes', urlencode($this->getRequest()->observacoes));  
         $this->report->addArg('data', $this->getRequest()->data);
     }
 

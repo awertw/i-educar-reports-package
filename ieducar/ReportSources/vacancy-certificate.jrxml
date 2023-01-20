@@ -149,7 +149,7 @@
 					<font fontName="DejaVu Sans" size="10"/>
 					<paragraph lineSpacing="1_1_2" firstLineIndent="30"/>
 				</textElement>
-				<textFieldExpression><![CDATA[($F{altera_atestado_para_declaracao} ? "Declaramos" : "Atestamos") + " para os devidos fins e a pedido da parte interessada, que há vaga no(a) "+$F{nm_serie}+" do(s) "+$F{nm_curso}+ " para o ano letivo de "+$P{ano}+", podendo ser aceita a matrícula por transferência do(a) aluno(a) "+$P{aluno}+" desde que apresente a documentação exigida:"]]></textFieldExpression>
+				<textFieldExpression><![CDATA[($F{altera_atestado_para_declaracao} ? "Declaramos" : "Atestamos") + " para os devidos fins e a pedido da parte interessada, que há vaga no(a) "+$F{nm_serie}+" do(s) "+$F{nm_curso}+ " para o ano letivo de "+$P{ano}+", podendo ser aceita a matrícula por transferência do(a) aluno(a) "+URLDecoder.decode($P{aluno}, "UTF-8")+" desde que apresente a documentação exigida:"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="0" y="0" width="555" height="20" uuid="78dd6e0d-9283-44d1-b536-bae09aef8384"/>

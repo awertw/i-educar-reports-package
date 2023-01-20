@@ -35,8 +35,8 @@ class TransferenceCertificateController extends Portabilis_Controller_ReportCore
     {
         $this->inputsHelper()->dynamic(['ano', 'instituicao']);
         $this->inputsHelper()->dynamic(['escola'], ['required' => false]);
-        $this->inputsHelper()->simpleSearchMatricula(null, ['required' => false]);
-        $this->campoMemo('observacao', 'Observação', $this->observacao, 48, 5, false);
+        $this->inputsHelper()->simpleSearchMatricula(null, ['required' => false]);        
+        $this->campoMemo('observacoes', 'Observações', $this->observacoes, 48, 5, false);      
         $this->inputsHelper()->checkbox('emitir_nome_diretor', ['label' => 'Emitir assinatura do gestor escolar']);
         $this->inputsHelper()->checkbox('emitir_secretario_escolar', ['label' => 'Emitir assinatura do secretário escolar']);
         $this->inputsHelper()->checkbox('mostrar_prazo_entrega_historico', ['label' => 'Emitir prazo de entrega do histórico escolar?']);
@@ -60,8 +60,8 @@ class TransferenceCertificateController extends Portabilis_Controller_ReportCore
         $this->report->addArg('ano', (int) $this->getRequest()->ano);
         $this->report->addArg('instituicao', (int) $this->getRequest()->ref_cod_instituicao);
         $this->report->addArg('escola', (int) $this->getRequest()->ref_cod_escola);
-        $this->report->addArg('matricula', (int) $this->getRequest()->matricula_id);
-        $this->report->addArg('observacao', $this->getRequest()->observacao);
+        $this->report->addArg('matricula', (int) $this->getRequest()->matricula_id);                
+        $this->report->addArg('observacoes', urlencode($this->getRequest()->observacoes));    
         $this->report->addArg('cabecalho_alternativo', (int) $GLOBALS['coreExt']['Config']->report->header->alternativo);
         $this->report->addArg('emitir_nome_diretor', (bool) $this->getRequest()->emitir_nome_diretor);
         $this->report->addArg('emitir_secretario_escolar', (bool) $this->getRequest()->emitir_secretario_escolar);

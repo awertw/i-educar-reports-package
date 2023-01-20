@@ -18,7 +18,7 @@
 		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
 	</parameter>
 	<parameter name="data_emissao" class="java.lang.Integer"/>
-	<parameter name="observacao" class="java.lang.String"/>
+	<parameter name="observacoes" class="java.lang.String"/>
 	<parameter name="cabecalho_alternativo" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[0]]></defaultValueExpression>
 	</parameter>
@@ -172,12 +172,12 @@
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="21" y="303" width="512" height="64" uuid="012a4601-3241-4b8b-a5f1-1f62ac5d3ddd">
-					<printWhenExpression><![CDATA[!$P{observacao}.trim().equals("")]]></printWhenExpression>
+					<printWhenExpression><![CDATA[!$P{observacoes}.trim().equals("")]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Justified">
 					<font fontName="DejaVu Sans" size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Observações: " + $P{observacao}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Observações: " + URLDecoder.decode($P{observacoes}, "UTF-8")]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="0" y="0" width="555" height="20" uuid="d2d379dc-bd1a-4d5a-aa11-2a7037d55690"/>

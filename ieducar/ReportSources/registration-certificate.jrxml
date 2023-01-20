@@ -173,18 +173,9 @@
 				</reportElement>
 				<textElement>
 					<font fontName="DejaVu Sans"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{observacoes}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="21" y="262" width="70" height="20" uuid="1eca72c0-a894-4a5c-acc8-0c94d7797c72">
-					<printWhenExpression><![CDATA[!$P{observacoes}.trim().equals("")]]></printWhenExpression>
-				</reportElement>
-				<textElement>
-					<font fontName="DejaVu Sans"/>
-				</textElement>
-				<text><![CDATA[Observações:]]></text>
-			</staticText>
+				</textElement>				
+				<textFieldExpression><![CDATA["Observações: " + URLDecoder.decode($P{observacoes}, "UTF-8")]]></textFieldExpression>
+			</textField>			
 		</band>
 	</detail>
 	<pageFooter>

@@ -10,7 +10,7 @@
 	<parameter name="escola" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[new java.lang.Integer(0)]]></defaultValueExpression>
 	</parameter>
-	<parameter name="observacao" class="java.lang.String"/>
+	<parameter name="observacoes" class="java.lang.String"/>
 	<parameter name="logo" class="java.lang.String"/>
 	<parameter name="data_emissao" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[0]]></defaultValueExpression>
@@ -157,19 +157,14 @@ $F{municipio_uf_nascimento} + ", filho(a) de "+ ($F{nm_pai}.equals("") && $F{nm_
 				</textElement>
 				<textFieldExpression><![CDATA[$F{cidade}+", "+$F{data_atual}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement x="21" y="339" width="68" height="12" uuid="b1b6820c-9942-4dde-92b9-b73466b8f22b"/>
-				<textElement>
-					<font fontName="DejaVu Sans"/>
-				</textElement>
-				<text><![CDATA[Observação:]]></text>
-			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="89" y="339" width="445" height="121" uuid="d887c1ae-b508-427f-8d43-83229fa03dbf"/>
-				<textElement>
-					<font fontName="DejaVu Sans"/>
+				<reportElement x="21" y="303" width="512" height="64" uuid="14306613-82b3-417b-ae19-599e324639b2">
+					<printWhenExpression><![CDATA[!$P{observacoes}.trim().equals("")]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Justified" markup="none">
+					<font fontName="DejaVu Sans" size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{observacao}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Observações: " + URLDecoder.decode($P{observacoes}, "UTF-8")]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="21" y="269" width="513" height="15" uuid="0d0d550b-9013-4377-961e-d714d8047c04"/>

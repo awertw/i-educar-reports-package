@@ -38,7 +38,7 @@ class FrequencyCertificateController extends Portabilis_Controller_ReportCoreCon
         $this->inputsHelper()->dynamic(['curso', 'serie', 'turma']);
         $this->inputsHelper()->select('modelo', ['label' => 'Modelo', 'resources' => [1 => 'Modelo 1'], 'value' => 1]);
         $this->inputsHelper()->simpleSearchMatricula(null, ['required' => false]);
-        $this->campoMemo('observacao', 'Observação', $this->observacao, 48, 5, false);
+        $this->campoMemo('observacoes', 'Observações', $this->observacoes, 48, 5, false);                
         $this->inputsHelper()->checkbox('emitir_frequencia', ['label' => 'Emitir a percentagem de frequência do aluno']);
         $this->inputsHelper()->checkbox('emitir_nome_diretor', ['label' => 'Emitir assinatura do gestor escolar']);
         $this->inputsHelper()->checkbox('emitir_secretario_escolar', ['label' => 'Emitir assinatura do secretário escolar']);
@@ -56,8 +56,8 @@ class FrequencyCertificateController extends Portabilis_Controller_ReportCoreCon
         $this->report->addArg('ano', (int) $this->getRequest()->ano);
         $this->report->addArg('instituicao', (int) $this->getRequest()->ref_cod_instituicao);
         $this->report->addArg('escola', (int) $this->getRequest()->ref_cod_escola);
-        $this->report->addArg('matricula', (int) $this->getRequest()->matricula_id);
-        $this->report->addArg('observacao', $this->getRequest()->observacao);
+        $this->report->addArg('matricula', (int) $this->getRequest()->matricula_id);        
+        $this->report->addArg('observacoes', urlencode($this->getRequest()->observacoes));  
         $this->report->addArg('modelo', $this->getRequest()->modelo);
         $this->report->addArg('emitir_frequencia', (bool) $this->getRequest()->emitir_frequencia);
         $this->report->addArg('cabecalho_alternativo', (int) $GLOBALS['coreExt']['Config']->report->header->alternativo);

@@ -67,7 +67,7 @@ class VacancyCertificateController extends Portabilis_Controller_ReportCoreContr
         $this->report->addArg('escola', (int) $this->getRequest()->ref_cod_escola);
         $this->report->addArg('curso', (int) $this->getRequest()->ref_cod_curso);
         $this->report->addArg('serie', (int) $this->getRequest()->ref_cod_serie);
-        $this->report->addArg('aluno', $this->getRequest()->aluno);
+        $this->report->addArg('aluno', urlencode($this->getRequest()->aluno));          
         $this->report->addArg('branco', $branco);
         $this->report->addArg('cabecalho_alternativo', (int) $GLOBALS['coreExt']['Config']->report->header->alternativo);
         $this->report->addArg('emitir_nome_diretor', (bool) $this->getRequest()->emitir_nome_diretor ? true : false);

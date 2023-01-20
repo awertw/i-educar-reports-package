@@ -43,7 +43,7 @@ class ConclusionCertificateController extends Portabilis_Controller_ReportCoreCo
             'max_length' => 3,
             'size' => 20
         ]);
-        $this->campoMemo('observacao', 'Observação', $this->observacao, 48, 5, false);
+        $this->campoMemo('observacoes', 'Observações', $this->observacoes, 48, 5, false);
 
         $this->loadResourceAssets($this->getDispatcher());
     }
@@ -61,8 +61,8 @@ class ConclusionCertificateController extends Portabilis_Controller_ReportCoreCo
         $this->report->addArg('serie', (int) $this->getRequest()->ref_cod_serie);
         $this->report->addArg('turma', (int) $this->getRequest()->ref_cod_turma);
         $this->report->addArg('mostrar_prazo_entrega_historico', (bool) $this->getRequest()->mostrar_prazo_entrega_historico);
-        $this->report->addArg('prazo_entrega_historico', (int) $this->getRequest()->prazo_entrega_historico);
-        $this->report->addArg('observacao', $this->getRequest()->observacao);
+        $this->report->addArg('prazo_entrega_historico', (int) $this->getRequest()->prazo_entrega_historico);        
+        $this->report->addArg('observacoes',  urlencode($this->getRequest()->observacoes));
     }
 
     /**

@@ -60,8 +60,8 @@ class RegistrationCertificateController extends Portabilis_Controller_ReportCore
         $this->report->addArg('modelo', (int) $this->getRequest()->modelo);
         $this->report->addArg('cabecalho_alternativo', (int) $GLOBALS['coreExt']['Config']->report->header->alternativo);
         $this->report->addArg('emitir_nome_diretor', (bool) $this->getRequest()->emitir_nome_diretor);
-        $this->report->addArg('emitir_secretario_escolar', (bool) $this->getRequest()->emitir_secretario_escolar);
-        $this->report->addArg('observacoes', (string) $this->getRequest()->observacoes);
+        $this->report->addArg('emitir_secretario_escolar', (bool) $this->getRequest()->emitir_secretario_escolar);        
+        $this->report->addArg('observacoes', urlencode($this->getRequest()->observacoes));   
         $this->report->addArg('titulo', (string) $this->titulo());
     }
 

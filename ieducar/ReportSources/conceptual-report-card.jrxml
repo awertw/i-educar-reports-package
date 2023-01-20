@@ -301,7 +301,7 @@
 						<font fontName="DejaVu Sans" size="8"/>
 						<paragraph leftIndent="4" rightIndent="4" spacingBefore="4" spacingAfter="4"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$P{observacoes}]]></textFieldExpression>
+					<textFieldExpression><![CDATA["Observações: " + URLDecoder.decode($P{observacoes}, "UTF-8")]]></textFieldExpression>
 				</textField>
 				<line>
 					<reportElement uuid="56aa853e-4e3b-47ad-8b30-24cbc4885224" stretchType="RelativeToBandHeight" x="0" y="29" width="555" height="1"/>

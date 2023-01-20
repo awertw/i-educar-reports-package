@@ -110,7 +110,7 @@ class ReportCardController extends Portabilis_Controller_ReportCoreController
         $this->report->addArg('grafico_preto', (bool) $this->getRequest()->grafico_preto);
         $this->report->addArg('alunos_diferenciados', (int) ($this->getRequest()->alunos_diferenciados ?: 0));
         $this->report->addArg('etapa', (int) ($this->getRequest()->etapa));
-        $this->report->addArg('observacoes', $this->getRequest()->observacoes);
+        $this->report->addArg('observacoes', urlencode($this->getRequest()->observacoes));  
         $this->report->addArg('orientacao', (int) $this->getRequest()->orientacao);
 
         if (is_null($this->getRequest()->ref_cod_matricula)) {

@@ -13,7 +13,7 @@
 	<parameter name="matricula" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[new java.lang.Integer(0)]]></defaultValueExpression>
 	</parameter>
-	<parameter name="observacao" class="java.lang.String"/>
+	<parameter name="observacoes" class="java.lang.String"/>
 	<parameter name="logo" class="java.lang.String"/>
 	<parameter name="data_emissao" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[0]]></defaultValueExpression>
@@ -123,22 +123,15 @@
 				</textElement>
 				<textFieldExpression><![CDATA[($F{altera_atestado_para_declaracao} ? "Declaramos" : "Atestamos") +" para os devidos fins que, o(a) aluno(a) "+$F{nome}+", filho(a) de "+(($F{nm_pai}.equals("") || $F{nm_pai} == null) && ($F{nm_mae}.equals("")  || $F{nm_mae} == null ) ? "não informado" : (!$F{nm_pai}.equals("") && ($F{nm_mae}.equals("") || $F{nm_mae} == null) ? $F{nm_pai} : (($F{nm_pai}.equals("") || $F{nm_pai} == null) && !$F{nm_mae}.equals("") ? $F{nm_mae} : ($F{nm_mae} + " e de " + $F{nm_pai}))))+", nascido(a) em "+$F{data_nasc}+", natural de "+$F{municipio_uf_nascimento}+", está frequentando no ano de "+$P{ano}+" o(a) "+$F{nm_serie}+" na(s) turma(s) "+$F{nm_turma}+" do(a) "+$F{nm_curso}+" no(s) período(s) " + $F{periodo} + (!$P{emitir_frequencia} ? "." : " com a frequência " + ($F{frequencia} == null ? "não informada." :"de " + $F{frequencia} + "%" + "."))]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="Float" x="92" y="336" width="442" height="90" uuid="ba7cb218-2999-4bf4-9b20-ce90405335b9"/>
+			<textField isBlankWhenNull="true">
+				<reportElement x="21" y="303" width="512" height="64" uuid="77549e26-3763-48da-bd8e-952406003f01">
+					<printWhenExpression><![CDATA[!$P{observacoes}.trim().equals("")]]></printWhenExpression>
+				</reportElement>
 				<textElement textAlignment="Justified">
 					<font fontName="DejaVu Sans" size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{observacao}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Observações: " + URLDecoder.decode($P{observacoes}, "UTF-8")]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement x="21" y="336" width="71" height="13" uuid="ab1f2689-54cc-433f-b62f-82b85d2a2d23">
-					<printWhenExpression><![CDATA[$P{observacao} != null]]></printWhenExpression>
-				</reportElement>
-				<textElement markup="none">
-					<font fontName="DejaVu Sans" size="10"/>
-				</textElement>
-				<text><![CDATA[Observação:]]></text>
-			</staticText>
 			<textField isBlankWhenNull="true">
 				<reportElement x="157" y="236" width="158" height="20" uuid="dd038e50-edde-4ca2-be56-c4ad0bec1a6b"/>
 				<textElement markup="none">
