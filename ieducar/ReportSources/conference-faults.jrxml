@@ -1,0 +1,498 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="conferencia_faltas" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4d77f07a-e520-428b-9699-1e75cc412a4a">
+	<style name="Crosstab Data Text" hTextAlign="Center" hImageAlign="Center"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+			<topPen lineStyle="Solid"/>
+			<leftPen lineStyle="Solid"/>
+			<bottomPen lineStyle="Solid"/>
+			<rightPen lineStyle="Solid"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="linha-zebrado" hTextAlign="Center" hImageAlign="Center">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean(($V{ROW_COUNT}.intValue() % 2) == 0)]]></conditionExpression>
+			<style backcolor="#F0F0F0"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="ano" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[new java.lang.Integer(0)]]></defaultValueExpression>
+	</parameter>
+	<parameter name="instituicao" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[new java.lang.Integer(0)]]></defaultValueExpression>
+	</parameter>
+	<parameter name="escola" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[new java.lang.Integer(0)]]></defaultValueExpression>
+	</parameter>
+	<parameter name="curso" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[new java.lang.Integer(0)]]></defaultValueExpression>
+	</parameter>
+	<parameter name="serie" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[new java.lang.Integer(0)]]></defaultValueExpression>
+	</parameter>
+	<parameter name="turma" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[new java.lang.Integer(0)]]></defaultValueExpression>
+	</parameter>
+	<parameter name="logo" class="java.lang.String"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="data_inicial" class="java.util.Date">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="data_final" class="java.util.Date">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="data_emissao" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[0]]></defaultValueExpression>
+	</parameter>
+	<parameter name="database" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="emitir_legenda" class="java.lang.Boolean">
+		<defaultValueExpression><![CDATA[false]]></defaultValueExpression>
+	</parameter>
+	<parameter name="disciplina" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[new java.lang.Integer(0)]]></defaultValueExpression>
+	</parameter>
+	<parameter name="source" class="java.lang.String"/>
+	<field name="cod_matricula" class="java.lang.Integer"/>
+	<field name="cod_aluno" class="java.lang.Integer"/>
+	<field name="nm_aluno" class="java.lang.String"/>
+	<field name="situacao" class="java.lang.String"/>
+	<field name="frequencia_geral" class="java.lang.String"/>
+	<field name="legenda" class="java.lang.String"/>
+	<field name="faltas" class="java.lang.String"/>
+	<field name="componente_order" class="java.lang.Integer"/>
+	<field name="nm_componente_curricular" class="java.lang.String"/>
+	<field name="ano" class="java.lang.Integer"/>
+	<field name="nome_curso" class="java.lang.String"/>
+	<field name="nome_serie" class="java.lang.String"/>
+	<field name="nome_turma" class="java.lang.String"/>
+	<field name="periodo" class="java.lang.String"/>
+	<group name="crosstabLegenda">
+		<groupExpression><![CDATA[true]]></groupExpression>
+		<groupFooter>
+			<band height="50">
+				<printWhenExpression><![CDATA[$P{emitir_legenda}]]></printWhenExpression>
+				<elementGroup>
+					<textField isBlankWhenNull="false">
+						<reportElement mode="Transparent" x="0" y="0" width="802" height="38" uuid="60934327-6f84-420e-a595-5b378fb3800c">
+							<property name="net.sf.jasperreports.export.pdf.tag.table"/>
+							<printWhenExpression><![CDATA[$P{emitir_legenda}]]></printWhenExpression>
+						</reportElement>
+						<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0"/>
+						<textElement markup="html">
+							<font fontName="DejaVu Sans" size="8"/>
+						</textElement>
+						<textFieldExpression><![CDATA["<b>Legenda:</b> <br />"+$F{legenda}]]></textFieldExpression>
+					</textField>
+				</elementGroup>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="crosstabCorpo">
+		<groupExpression><![CDATA[true]]></groupExpression>
+		<groupFooter>
+			<band height="43">
+				<elementGroup>
+					<elementGroup>
+						<elementGroup>
+							<elementGroup>
+								<crosstab>
+									<reportElement x="0" y="0" width="802" height="40" uuid="37dbebf9-744e-4bf6-879e-be3b83918b56"/>
+									<crosstabParameter name="separar_componentes5" class="java.lang.Boolean">
+										<parameterValueExpression><![CDATA[]]></parameterValueExpression>
+									</crosstabParameter>
+									<crosstabDataset isDataPreSorted="true"/>
+									<crosstabHeaderCell>
+										<cellContents mode="Opaque">
+											<box>
+												<pen lineWidth="0.0"/>
+												<topPen lineWidth="0.0"/>
+												<leftPen lineWidth="0.0"/>
+												<bottomPen lineWidth="0.0"/>
+												<rightPen lineWidth="0.0"/>
+											</box>
+											<staticText>
+												<reportElement style="Crosstab Data Text" x="18" y="0" width="194" height="24" uuid="bcfe9544-fba4-4bcf-b0bd-ca4731187d93"/>
+												<box>
+													<topPen lineWidth="0.5"/>
+													<leftPen lineWidth="0.5"/>
+													<bottomPen lineWidth="0.5"/>
+													<rightPen lineWidth="0.5"/>
+												</box>
+												<textElement textAlignment="Left" verticalAlignment="Middle">
+													<font fontName="DejaVu Sans" size="8" isBold="true"/>
+													<paragraph leftIndent="2"/>
+												</textElement>
+												<text><![CDATA[Aluno]]></text>
+											</staticText>
+											<staticText>
+												<reportElement style="Crosstab Data Text" x="212" y="0" width="48" height="24" uuid="1ad3f20d-e6a1-484e-b4a6-bec373f6ae53"/>
+												<box>
+													<topPen lineWidth="0.5"/>
+													<bottomPen lineWidth="0.5"/>
+													<rightPen lineWidth="0.5"/>
+												</box>
+												<textElement textAlignment="Center" verticalAlignment="Middle">
+													<font fontName="DejaVu Sans" size="8" isBold="true"/>
+												</textElement>
+												<text><![CDATA[Situação]]></text>
+											</staticText>
+											<staticText>
+												<reportElement style="Crosstab Data Text" x="0" y="0" width="18" height="24" uuid="bcfe9544-fba4-4bcf-b0bd-ca4731187d93"/>
+												<box>
+													<topPen lineWidth="0.5"/>
+													<leftPen lineWidth="0.5"/>
+													<bottomPen lineWidth="0.5"/>
+													<rightPen lineWidth="0.5"/>
+												</box>
+												<textElement textAlignment="Right" verticalAlignment="Middle">
+													<font fontName="DejaVu Sans" size="8" isBold="true"/>
+													<paragraph rightIndent="2"/>
+												</textElement>
+												<text><![CDATA[Nº]]></text>
+											</staticText>
+										</cellContents>
+									</crosstabHeaderCell>
+									<rowGroup name="ordem" width="18">
+										<bucket class="java.lang.Integer">
+											<bucketExpression><![CDATA[$F{nm_aluno}]]></bucketExpression>
+										</bucket>
+										<crosstabRowHeader>
+											<cellContents mode="Opaque" style="linha-zebrado">
+												<textField>
+													<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="18" height="15" uuid="8913d1ea-b6ef-499f-8b4b-7bfdac5dc295"/>
+													<box>
+														<leftPen lineWidth="0.5"/>
+														<bottomPen lineWidth="0.5"/>
+														<rightPen lineWidth="0.5"/>
+													</box>
+													<textElement textAlignment="Right" verticalAlignment="Middle">
+														<font fontName="DejaVu Sans" size="8"/>
+														<paragraph rightIndent="2"/>
+													</textElement>
+													<textFieldExpression><![CDATA[$V{ROW_COUNT}]]></textFieldExpression>
+												</textField>
+											</cellContents>
+										</crosstabRowHeader>
+										<crosstabTotalRowHeader>
+											<cellContents/>
+										</crosstabTotalRowHeader>
+									</rowGroup>
+									<rowGroup name="nm_aluno_cod_matricula" width="0">
+										<bucket class="java.lang.String">
+											<bucketExpression><![CDATA[$F{nm_aluno} + $F{cod_matricula}]]></bucketExpression>
+										</bucket>
+										<crosstabRowHeader>
+											<cellContents/>
+										</crosstabRowHeader>
+										<crosstabTotalRowHeader>
+											<cellContents/>
+										</crosstabTotalRowHeader>
+									</rowGroup>
+									<rowGroup name="nm_aluno" width="194">
+										<bucket class="java.lang.String">
+											<bucketExpression><![CDATA[$F{nm_aluno}]]></bucketExpression>
+										</bucket>
+										<crosstabRowHeader>
+											<cellContents mode="Opaque" style="linha-zebrado">
+												<box>
+													<pen lineWidth="0.0"/>
+													<topPen lineWidth="0.0"/>
+													<leftPen lineWidth="0.0"/>
+													<bottomPen lineWidth="0.0"/>
+													<rightPen lineWidth="0.0"/>
+												</box>
+												<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+													<reportElement stretchType="RelativeToTallestObject" mode="Transparent" x="0" y="0" width="194" height="15" uuid="0a1d8e0e-104d-4c0e-82ac-d79ebe250e97"/>
+													<box>
+														<topPen lineWidth="0.0"/>
+														<leftPen lineWidth="0.5"/>
+														<bottomPen lineWidth="0.5"/>
+														<rightPen lineWidth="0.5"/>
+													</box>
+													<textElement textAlignment="Left" verticalAlignment="Middle">
+														<font fontName="DejaVu Sans" size="8"/>
+														<paragraph leftIndent="2"/>
+													</textElement>
+													<textFieldExpression><![CDATA[$V{nm_aluno}]]></textFieldExpression>
+												</textField>
+											</cellContents>
+										</crosstabRowHeader>
+										<crosstabTotalRowHeader>
+											<cellContents>
+												<box>
+													<pen lineWidth="0.0"/>
+													<topPen lineWidth="0.0"/>
+													<leftPen lineWidth="0.0"/>
+													<bottomPen lineWidth="0.0"/>
+													<rightPen lineWidth="0.0"/>
+												</box>
+											</cellContents>
+										</crosstabTotalRowHeader>
+									</rowGroup>
+									<rowGroup name="situacao_simplificado" width="49">
+										<bucket class="java.lang.String">
+											<bucketExpression><![CDATA[$F{situacao}]]></bucketExpression>
+										</bucket>
+										<crosstabRowHeader>
+											<cellContents mode="Opaque" style="linha-zebrado">
+												<textField>
+													<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="48" height="15" uuid="1f861dcf-8310-478b-b247-33b7a9d065e6"/>
+													<box>
+														<leftPen lineWidth="0.5"/>
+														<bottomPen lineWidth="0.5"/>
+														<rightPen lineWidth="0.5"/>
+													</box>
+													<textElement textAlignment="Center" verticalAlignment="Middle">
+														<font fontName="DejaVu Sans" size="8"/>
+														<paragraph rightIndent="2"/>
+													</textElement>
+													<textFieldExpression><![CDATA[$V{situacao_simplificado}]]></textFieldExpression>
+												</textField>
+											</cellContents>
+										</crosstabRowHeader>
+										<crosstabTotalRowHeader>
+											<cellContents/>
+										</crosstabTotalRowHeader>
+									</rowGroup>
+									<columnGroup name="nm_componente_curricular" height="25" totalPosition="End">
+										<bucket class="java.lang.String">
+											<bucketExpression><![CDATA[$F{nm_componente_curricular}]]></bucketExpression>
+										</bucket>
+										<crosstabColumnHeader>
+											<cellContents mode="Opaque">
+												<box>
+													<pen lineWidth="0.0"/>
+													<topPen lineWidth="0.0"/>
+													<leftPen lineWidth="0.0"/>
+													<bottomPen lineWidth="0.0"/>
+													<rightPen lineWidth="0.0"/>
+												</box>
+												<textField isBlankWhenNull="true">
+													<reportElement style="Crosstab Data Text" x="0" y="0" width="49" height="13" uuid="31055051-5ef6-457a-b97c-b999698e2d58"/>
+													<box>
+														<topPen lineWidth="0.5"/>
+														<bottomPen lineWidth="0.5"/>
+														<rightPen lineWidth="0.5"/>
+													</box>
+													<textElement verticalAlignment="Middle">
+														<font fontName="DejaVu Sans" size="8" isBold="true"/>
+													</textElement>
+													<textFieldExpression><![CDATA[$V{nm_componente_curricular}]]></textFieldExpression>
+												</textField>
+												<textField isBlankWhenNull="true">
+													<reportElement style="Crosstab Data Text" x="0" y="13" width="49" height="12" uuid="31055051-5ef6-457a-b97c-b999698e2d58"/>
+													<box>
+														<topPen lineWidth="0.5"/>
+														<bottomPen lineWidth="0.5"/>
+														<rightPen lineWidth="0.5"/>
+													</box>
+													<textElement textAlignment="Center" verticalAlignment="Middle">
+														<font fontName="DejaVu Sans" size="6" isBold="true"/>
+													</textElement>
+													<textFieldExpression><![CDATA["FALTAS"]]></textFieldExpression>
+												</textField>
+											</cellContents>
+										</crosstabColumnHeader>
+										<crosstabTotalColumnHeader>
+											<cellContents backcolor="#BFE1FF" mode="Transparent">
+												<box>
+													<pen lineWidth="0.0"/>
+													<topPen lineWidth="0.0"/>
+													<leftPen lineWidth="0.0"/>
+													<bottomPen lineWidth="0.0"/>
+													<rightPen lineWidth="0.0"/>
+												</box>
+											</cellContents>
+										</crosstabTotalColumnHeader>
+									</columnGroup>
+									<measure name="measurefaltas" class="java.lang.String" calculation="First">
+										<measureExpression><![CDATA[$F{faltas}]]></measureExpression>
+									</measure>
+									<crosstabCell width="49" height="16">
+										<cellContents mode="Opaque" style="linha-zebrado">
+											<box>
+												<pen lineWidth="0.0"/>
+												<topPen lineWidth="0.0"/>
+												<leftPen lineWidth="0.0"/>
+												<bottomPen lineWidth="0.0"/>
+												<rightPen lineWidth="0.0"/>
+											</box>
+											<textField isBlankWhenNull="false">
+												<reportElement style="Crosstab Data Text" stretchType="RelativeToBandHeight" x="0" y="0" width="49" height="16" uuid="2c525ee2-ad90-46e5-ba87-c9671f62a5b4"/>
+												<box>
+													<bottomPen lineWidth="0.5"/>
+													<rightPen lineWidth="0.5"/>
+												</box>
+												<textElement verticalAlignment="Middle">
+													<font fontName="DejaVu Sans" size="8"/>
+												</textElement>
+												<textFieldExpression><![CDATA[$V{measurefaltas} == null ? "-" : $V{measurefaltas}]]></textFieldExpression>
+											</textField>
+										</cellContents>
+									</crosstabCell>
+									<crosstabCell width="0" height="16" columnTotalGroup="nm_componente_curricular">
+										<cellContents backcolor="#BFE1FF" mode="Transparent">
+											<box>
+												<pen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+												<topPen lineWidth="0.0"/>
+												<leftPen lineWidth="0.0"/>
+												<bottomPen lineWidth="0.0"/>
+												<rightPen lineWidth="0.0"/>
+											</box>
+										</cellContents>
+									</crosstabCell>
+									<crosstabCell rowTotalGroup="nm_aluno">
+										<cellContents/>
+									</crosstabCell>
+									<crosstabCell rowTotalGroup="nm_aluno" columnTotalGroup="nm_componente_curricular">
+										<cellContents/>
+									</crosstabCell>
+									<crosstabCell rowTotalGroup="situacao_simplificado">
+										<cellContents/>
+									</crosstabCell>
+									<crosstabCell rowTotalGroup="situacao_simplificado" columnTotalGroup="nm_componente_curricular">
+										<cellContents/>
+									</crosstabCell>
+									<crosstabCell rowTotalGroup="ordem">
+										<cellContents/>
+									</crosstabCell>
+									<crosstabCell rowTotalGroup="ordem" columnTotalGroup="nm_componente_curricular">
+										<cellContents/>
+									</crosstabCell>
+									<crosstabCell width="60" height="20" rowTotalGroup="nm_aluno_cod_matricula" columnTotalGroup="nm_componente_curricular">
+										<cellContents/>
+									</crosstabCell>
+								</crosstab>
+							</elementGroup>
+						</elementGroup>
+					</elementGroup>
+				</elementGroup>
+			</band>
+		</groupFooter>
+	</group>
+	<title>
+		<band height="139">
+			<staticText>
+				<reportElement x="0" y="124" width="36" height="12" uuid="d5af34d0-f795-4fcc-836a-fe1fd641f176"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Curso:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="235" y="124" width="36" height="12" uuid="5a67fbcf-1c78-4283-88f1-2abc4f197438"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Turno:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="377" y="124" width="36" height="12" uuid="a1fbbf76-88bc-417e-bb5d-c7ba17cf591e"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Turma:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="525" y="124" width="36" height="12" uuid="d0b6e2ac-6be3-4b30-80ee-00063364b87d"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Série:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="34" y="124" width="190" height="12" uuid="6802d400-e7da-4824-a056-80c70aff0a8b"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nome_curso}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="271" y="124" width="100" height="12" uuid="543d503e-d1ae-4732-9520-5ec08a72192d"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{periodo}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="413" y="124" width="100" height="12" uuid="1d33b451-dbdf-4f86-a246-09eda36adc6d"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nome_turma}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="557" y="124" width="100" height="12" uuid="7bd2212b-18bc-4eba-b2b5-9d1a690042d5"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nome_serie}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement style="Crosstab Data Text" x="0" y="0" width="802" height="100" uuid="b35f2671-2b53-47ac-89be-0b03082ac517"/>
+				<subreportParameter name="logo">
+					<subreportParameterExpression><![CDATA[$P{logo}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="titulo">
+					<subreportParameterExpression><![CDATA["Conferência de faltas"]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="cod_instituicao">
+					<subreportParameterExpression><![CDATA[$P{instituicao}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="cod_escola">
+					<subreportParameterExpression><![CDATA[$P{escola}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="ano">
+					<subreportParameterExpression><![CDATA[$P{ano}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="data_emissao">
+					<subreportParameterExpression><![CDATA[$P{data_emissao}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="source">
+					<subreportParameterExpression><![CDATA[$P{source}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "header-landscape.jasper"]]></subreportExpression>
+			</subreport>
+			<textField isBlankWhenNull="true">
+				<reportElement x="51" y="100" width="79" height="12" uuid="7bd2212b-18bc-4eba-b2b5-9d1a690042d5"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format(new java.sql.Date($P{data_inicial}.getTime())) + "      a "]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="100" width="48" height="12" uuid="d0b6e2ac-6be3-4b30-80ee-00063364b87d"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Intervalo:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="130" y="100" width="84" height="12" uuid="bc4cbe25-6566-480a-bf17-a3c3cca9dc4e"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format(new java.sql.Date($P{data_final}.getTime()))]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+</jasperReport>
