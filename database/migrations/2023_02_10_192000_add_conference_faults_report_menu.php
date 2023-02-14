@@ -2,7 +2,6 @@
 
 use App\Menu;
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\QueryException;
 
 class AddConferenceFaultsReportMenu extends Migration
 {
@@ -15,29 +14,30 @@ class AddConferenceFaultsReportMenu extends Migration
     {
         try {
             $parentId = Menu::query()->where('old', 999922)->firstOrFail()->getKey();
-        } catch (\Exception $e) {
-            $parentId = 0;
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            // Cria um registro de menu pai caso não exista.
+            $parentId = Menu::query()->create([
+                'title' => 'Relatórios',
+                'old' => 999922,
+                'process' => 999922,
+            ])->getKey();
         }
 
         $counter = 0;
-        while(true){
+        while (true) {
             $id = $parentId + $counter;
-            try {
-                if(!Menu::query()->where('id', $id)->exists()){
-                    Menu::query()->create([
-                        'id' => $id,
-                        'parent_id' => $parentId,
-                        'title' => 'Relatório de conferência de faltas',
-                        'description' => null,
-                        'link' => '/module/Reports/ConferenceFaults',
-                        'order' => 0,
-                        'old' => 230210,
-                        'process' => 230210,
-                    ]);
-                    break;
-                }
-            } catch (QueryException $e) {
-                // Do nothing and continue with the loop
+            if (!Menu::query()->where('id', $id)->exists()) {
+                Menu::query()->create([
+                    'id' => $id,
+                    'parent_id' => $parentId,
+                    'title' => 'Relatório de conferência de faltas',
+                    'description' => null,
+                    'link' => '/module/Reports/ConferenceFaults',
+                    'order' => 0,
+                    'old' => 230213,
+                    'process' => 230213,
+                ]);
+                break;
             }
             $counter++;
         }
@@ -50,6 +50,6 @@ class AddConferenceFaultsReportMenu extends Migration
      */
     public function down()
     {
-        Menu::query()->where('process', 230210)->delete();
+        Menu::query()->where('process', 230213)->delete();
     }
 }
