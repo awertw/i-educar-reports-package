@@ -18,8 +18,8 @@ class AddConferenceFaultsReportMenu extends Migration
             'description' => null,
             'link' => '/module/Reports/ConferenceFaults',
             'order' => 0,
-            'old' => 230210,
-            'process' => 230210,
+            'old' => 230213,
+            'process' => 230213,
         ]);
     }
 
@@ -30,6 +30,6 @@ class AddConferenceFaultsReportMenu extends Migration
      */
     public function down()
     {
-        Menu::query()->where('process', 230210)->delete();
+        Menu::query()->where('process', 230213)->delete();
     }
 }
