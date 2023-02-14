@@ -18,8 +18,7 @@ class AddConferenceFaultsReportMenu extends Migration
 
         while (true) {
             $id = $parentId + $counter;
-            try {                
-                if (!Menu::query()->where('old', $id)->exists()) {
+            try {                                
                     Menu::query()->create([                        
                         'parent_id' => $id,
                         'title' => 'Relatório de conferência de faltas',
@@ -29,10 +28,19 @@ class AddConferenceFaultsReportMenu extends Migration
                         'old' => 230210,
                         'process' => 230210,
                     ]);
-                    break;
-                }
-            }
-            catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+                    $counter++;                    
+            }            
+            catch (\Exception $e) {                
+                $id = $parentId + $counter;
+                Menu::query()->create([                        
+                    'parent_id' => $id,
+                    'title' => 'Relatório de conferência de faltas',
+                    'description' => null,
+                    'link' => '/module/Reports/ConferenceFaults',
+                    'order' => 0,
+                    'old' => 230210,
+                    'process' => 230210,
+                ]);
                 $counter++;
             }
         }
