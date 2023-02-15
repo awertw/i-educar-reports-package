@@ -130,7 +130,6 @@ class TeacherReportCardReport extends Portabilis_Report_ReportCore
             (CASE WHEN falta_aluno.tipo_falta = 1 THEN falta_geral.quantidade
             ELSE falta_componente_curricular.quantidade END)::varchar AS falta,
             view_componente_curricular.nome,
-
             CASE WHEN nota_componente_curricular.nota_arredondada ~ '^-?[0-9]+\.?[0-9]*$' THEN
                     replace(trunc(nota_componente_curricular.nota_arredondada::numeric, COALESCE(
                     ( SELECT regra_avaliacao.qtd_casas_decimais
@@ -146,14 +145,37 @@ class TeacherReportCardReport extends Portabilis_Report_ReportCore
                     nota_componente_curricular.nota_arredondada
                 END AS nota_arredondada_etapa,
                 (CASE
-                    WHEN relatorio.get_situacao_componente(nota_componente_curricular_media.situacao) = '' THEN
+                WHEN matricula_turma.remanejado THEN
+                view_situacao.texto_situacao
+                WHEN relatorio.retorna_situacao_matricula_componente(matricula.aprovado, nota_componente_curricular_media.situacao) = '' THEN
                         view_situacao.texto_situacao
                     ELSE
-                        relatorio.get_situacao_componente(nota_componente_curricular_media.situacao)
+                relatorio.retorna_situacao_matricula_componente(matricula.aprovado, nota_componente_curricular_media.situacao)
                 END) AS situacao,
-            replace(modules.frequencia_da_matricula(matricula.cod_matricula)::varchar,'.',',') AS frequencia,
+                CASE WHEN falta_aluno.tipo_falta = 1 THEN
+                replace(TRUNC(modules.frequencia_da_matricula(matricula.cod_matricula)::numeric, 1)::varchar,'.',',')
+                ELSE
+                replace(TRUNC(modules.frequencia_por_componente(matricula.cod_matricula, view_componente_curricular.id,matricula_turma.ref_cod_turma)::numeric, 1)::varchar,'.',',')
+                END AS frequencia,
             relatorio.get_nota_exame(view_componente_curricular.id, matricula.cod_matricula) AS nota_exame,
-            nota_componente_curricular_media.media_arredondada AS media
+                CASE WHEN ISNUMERIC(nota_componente_curricular_media.media_arredondada) THEN
+                replace(trunc(nota_componente_curricular_media.media_arredondada::numeric, COALESCE(
+                ( SELECT regra_avaliacao.qtd_casas_decimais
+                FROM pmieducar.turma
+                JOIN pmieducar.serie
+                ON turma.ref_ref_cod_serie = serie.cod_serie
+                JOIN modules.regra_avaliacao_serie_ano rasa on(serie.cod_serie = rasa.serie_id AND matricula.ano = rasa.ano_letivo)
+                JOIN modules.regra_avaliacao on(rasa.regra_avaliacao_id = regra_avaliacao.id)
+                WHERE matricula_turma.ref_cod_turma = turma.cod_turma
+                LIMIT 1
+                ), 1))::varchar, '.', ',')
+                ELSE
+                nota_componente_curricular_media.media_arredondada
+                END
+                AS media,
+
+                matricula_turma.sequencial_fechamento,
+                view_componente_curricular.id as componente_curricular
 
             FROM pmieducar.matricula
             INNER JOIN pmieducar.matricula_turma ON (matricula_turma.ref_cod_matricula = matricula.cod_matricula)
@@ -180,7 +202,6 @@ class TeacherReportCardReport extends Portabilis_Report_ReportCore
             LEFT JOIN modules.nota_componente_curricular_media ON (nota_componente_curricular_media.nota_aluno_id = nota_aluno.id
                                                         AND nota_componente_curricular_media.componente_curricular_id = view_componente_curricular.id)
             LEFT JOIN relatorio.situacao_matricula ON(nota_componente_curricular_media.situacao = situacao_matricula.cod_situacao)
-
             WHERE matricula_turma.ref_cod_turma = {$turma}
             AND matricula.ano = {$ano}
             AND matricula.ativo = 1
@@ -192,12 +213,28 @@ class TeacherReportCardReport extends Portabilis_Report_ReportCore
                                 AND dp.ref_cod_disciplina = view_componente_curricular.id) > 0) THEN TRUE
                 END
             ELSE TRUE END)
-            AND (CASE WHEN {$situacao} = 0 THEN true ELSE COALESCE(nota_componente_curricular_media.situacao, matricula.aprovado) = {$situacao} END)
+                AND matricula_turma.sequencial = (
+                SELECT max(sequencial)
+                FROM pmieducar.matricula_turma mt
+                WHERE mt.ref_cod_turma = matricula_turma.ref_cod_turma
+                AND mt.ref_cod_matricula = matricula.cod_matricula
+                )
+                AND (
+                CASE
+                WHEN {$situacao} = 0 THEN true
+                ELSE (
+                CASE
+                WHEN matricula.aprovado IN (4, 5, 6, 15) THEN matricula.aprovado = {$situacao}
+                WHEN (matricula.aprovado IN (4, 5, 6, 15) OR matricula_turma.remanejado = 't') THEN matricula.aprovado = {$situacao} AND coalesce(matricula_turma.remanejado, false) = 'f'
+                ELSE COALESCE(nota_componente_curricular_media.situacao, matricula.aprovado) = {$situacao}
+                END
+                )
+                END
+                )
             ORDER BY (CASE WHEN matricula.dependencia THEN 1 ELSE 0 END), sequencial_fechamento, relatorio.get_texto_sem_caracter_especial(pessoa.nome), matricula.cod_matricula, sequencial)
-
             UNION ALL
-
-            (SELECT round(random()*1000), NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL
+                
+            (SELECT round(random()*1000), NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
             FROM generate_series(1, {$linha}));
         ";
 
