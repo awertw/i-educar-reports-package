@@ -121,7 +121,7 @@ class ConferenceFaultsReport extends Portabilis_Report_ReportCore
                            AND frequencia.ref_componente_curricular = view_componente_curricular.id
                            AND frequencia_aluno.ref_cod_matricula = matricula.cod_matricula 					  
                            {$data_inicial}
-                           {$data_final},
+                           {$data_final}),
                          (SELECT SUM(quantidade)
                           FROM modules.falta_geral, modules.falta_aluno
                           WHERE falta_geral.falta_aluno_id = falta_aluno.id
