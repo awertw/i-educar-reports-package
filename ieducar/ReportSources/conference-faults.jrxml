@@ -54,10 +54,10 @@
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
 	</parameter>
-	<parameter name="data_inicial" class="java.util.Date">
+	<parameter name="data_inicial" class="java.lang.String">
 		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
 	</parameter>
-	<parameter name="data_final" class="java.util.Date">
+	<parameter name="data_final" class="java.lang.String">
 		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
 	</parameter>
 	<parameter name="data_emissao" class="java.lang.Integer">
@@ -477,7 +477,7 @@
 				<textElement>
 					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{data_inicial}==null?"-":new SimpleDateFormat("dd/MM/yyyy").format(new java.sql.Date($P{data_inicial}.getTime())) + "      a "]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{data_inicial} == null ? "-" : new SimpleDateFormat("dd-MM-yyyy").format(new SimpleDateFormat("yyyy-MM-dd").parse($P{data_inicial})) + "      a "]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="0" y="100" width="48" height="12" uuid="d0b6e2ac-6be3-4b30-80ee-00063364b87d"/>
@@ -491,7 +491,7 @@
 				<textElement>
 					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{data_final}==null?"-":new SimpleDateFormat("dd/MM/yyyy").format(new java.sql.Date($P{data_final}.getTime()))]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{data_final} == null ? "-" : new SimpleDateFormat("dd-MM-yyyy").format(new SimpleDateFormat("yyyy-MM-dd").parse($P{data_final}))]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
