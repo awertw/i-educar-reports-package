@@ -34,8 +34,8 @@ class ConferenceFaultsController extends Portabilis_Controller_ReportCoreControl
         $this->inputsHelper()->dynamic(['ano', 'instituicao', 'escola', 'curso', 'serie', 'turma']); 
         $this->inputsHelper()->dynamic('componenteCurricular', ['required' => false]);
         $this->inputsHelper()->checkbox('emitir_legenda', ['value' => true,'label' => 'Emitir legenda?', 'required' => false]);
-        $this->inputsHelper()->date('data_inicial', ['required' => false, 'label' => 'Data inicial']);
-        $this->inputsHelper()->date('data_final', ['required' => false, 'label' => 'Data final']);                   
+        $this->inputsHelper()->date('data_inicial', ['required' => true, 'label' => 'Data inicial']);
+        $this->inputsHelper()->date('data_final', ['required' => true, 'label' => 'Data final']);                   
     }
 
     /**
