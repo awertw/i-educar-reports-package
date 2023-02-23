@@ -473,25 +473,25 @@
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "header-landscape.jasper"]]></subreportExpression>
 			</subreport>
 			<textField isBlankWhenNull="true">
-				<reportElement x="51" y="100" width="79" height="12" uuid="7bd2212b-18bc-4eba-b2b5-9d1a690042d5"/>
+				<reportElement x="48" y="100" width="79" height="12" uuid="7bd2212b-18bc-4eba-b2b5-9d1a690042d5"/>
 				<textElement>
 					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{data_inicial} == null ? "-" : new SimpleDateFormat("dd-MM-yyyy").format(new SimpleDateFormat("yyyy-MM-dd").parse($P{data_inicial})) + "      a "]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{data_inicial} == "" ? "" : new SimpleDateFormat("dd-MM-yyyy").format(new SimpleDateFormat("yyyy-MM-dd").parse($P{data_inicial})) + "      a "]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="0" y="100" width="48" height="12" uuid="d0b6e2ac-6be3-4b30-80ee-00063364b87d"/>
 				<textElement>
 					<font fontName="DejaVu Sans" size="8" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Intervalo:]]></text>
+				<text><![CDATA[Período:]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="130" y="100" width="84" height="12" uuid="bc4cbe25-6566-480a-bf17-a3c3cca9dc4e"/>
+				<reportElement x="127" y="100" width="84" height="12" uuid="bc4cbe25-6566-480a-bf17-a3c3cca9dc4e"/>
 				<textElement>
 					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{data_final} == null ? "-" : new SimpleDateFormat("dd-MM-yyyy").format(new SimpleDateFormat("yyyy-MM-dd").parse($P{data_final}))]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{data_final} == "" ? "" : new SimpleDateFormat("dd-MM-yyyy").format(new SimpleDateFormat("yyyy-MM-dd").parse($P{data_final}))]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
