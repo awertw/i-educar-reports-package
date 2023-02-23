@@ -73,17 +73,25 @@ class ConferenceFaultsReport extends Portabilis_Report_ReportCore
         $curso = $this->args['curso'];
         $serie = $this->args['serie'];
         $turma = $this->args['turma'];        
-        $disciplina = $this->args['disciplina'] ?: 0;
+        $componente_curricular = $this->args['componente_curricular'] ?: 0;
+
+        if (this->args['componente_curricular']) {
+          $qtdFaltas = $objFrequencia->getTotalFaltas($matriculaId, $params['componente_curricular']);          
+        }
+        else {
+          $qtdFaltas = $objFrequencia->getTotalFaltas($matriculaId, $params[null]);
+        }
 
         $data_inicial = ' AND TRUE ';
         $data_final = ' AND TRUE ';
+        
 
         if ($this->args['data_inicial']) {
-            $data_inicial = " AND FQ.data >= '{$this->args['data_inicial']}'";
+            $data_inicial = " AND frequencia.data >= '{$this->args['data_inicial']}'";
         }
 
         if ($this->args['data_final']) {
-            $data_final = " AND FQ.data <= '{$this->args['data_final']}'";
+            $data_final = " AND frequencia.data <= '{$this->args['data_final']}'";
         }
 
       return "
@@ -107,12 +115,13 @@ class ConferenceFaultsReport extends Portabilis_Report_ReportCore
           WHEN matricula_turma.remanejado = true THEN null
           ELSE
              (SELECT COALESCE(
-                         (SELECT SUM(quantidade)
-                          FROM modules.falta_componente_curricular, modules.falta_aluno
-                          WHERE falta_componente_curricular.falta_aluno_id = falta_aluno.id					  
-                            AND falta_componente_curricular.componente_curricular_id = view_componente_curricular.id
-                            AND falta_aluno.matricula_id = matricula.cod_matricula                        
-                            AND falta_aluno.tipo_falta = 2),
+                         (SELECT COUNT(*) + SUM(LENGTH(frequencia_aluno.aulas_faltou) - LENGTH(REPLACE(frequencia_aluno.aulas_faltou, ',', '')))
+                         FROM modules.frequencia_aluno, modules.frequencia
+                         WHERE frequencia_aluno.ref_frequencia = frequencia.id
+                           AND frequencia.ref_componente_curricular = view_componente_curricular.id
+                           AND frequencia_aluno.ref_cod_matricula = matricula.cod_matricula 					  
+                           {$data_inicial}
+                           {$data_final},
                          (SELECT SUM(quantidade)
                           FROM modules.falta_geral, modules.falta_aluno
                           WHERE falta_geral.falta_aluno_id = falta_aluno.id
@@ -142,10 +151,10 @@ class ConferenceFaultsReport extends Portabilis_Report_ReportCore
         INNER JOIN pmieducar.matricula ON (matricula.cod_matricula = matricula_turma.ref_cod_matricula)
         INNER JOIN pmieducar.aluno ON (aluno.cod_aluno = matricula.ref_cod_aluno)
         INNER JOIN cadastro.pessoa ON (pessoa.idpes = aluno.ref_idpes)
-        INNER JOIN modules.frequencia_aluno AS FQA            -- FREQUÊNCIA ALUNO
-          ON FQA.ref_cod_matricula = matricula.cod_matricula
-        INNER JOIN modules.frequencia AS FQ                   -- FREQUÊNCIA
-          ON FQ.id = FQA.id
+        INNER JOIN modules.frequencia_aluno            -- FREQUÊNCIA ALUNO
+          ON frequencia_aluno.ref_cod_matricula = matricula.cod_matricula
+        INNER JOIN modules.frequencia                  -- FREQUÊNCIA
+          ON frequencia.id = frequencia_aluno.ref_frequencia
         INNER JOIN relatorio.view_componente_curricular ON (view_componente_curricular.cod_turma = turma.cod_turma)
         LEFT JOIN modules.nota_aluno ON (nota_aluno.matricula_id = matricula.cod_matricula)																					  
         INNER JOIN relatorio.view_situacao ON (view_situacao.cod_matricula = matricula.cod_matricula
