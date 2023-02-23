@@ -73,14 +73,7 @@ class ConferenceFaultsReport extends Portabilis_Report_ReportCore
         $curso = $this->args['curso'];
         $serie = $this->args['serie'];
         $turma = $this->args['turma'];        
-        $componente_curricular = $this->args['componente_curricular'] ?: 0;
-
-        if (this->args['componente_curricular']) {
-          $qtdFaltas = $objFrequencia->getTotalFaltas($matriculaId, $params['componente_curricular']);          
-        }
-        else {
-          $qtdFaltas = $objFrequencia->getTotalFaltas($matriculaId, $params[null]);
-        }
+        $disciplina = $this->args['disciplina'] ?: 0;
 
         $data_inicial = ' AND TRUE ';
         $data_final = ' AND TRUE ';
