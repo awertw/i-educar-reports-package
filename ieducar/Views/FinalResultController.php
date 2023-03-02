@@ -117,7 +117,7 @@ class FinalResultController extends Portabilis_Controller_ReportCoreController
         $this->report->addArg('criterio_aprovacao', (string) $this->getRequest()->criterio_aprovacao);
         $this->report->addArg('portaria_aprovacao_pontos', (string) $GLOBALS['coreExt']['Config']->report->portaria_aprovacao_pontos);
         $this->report->addArg('mostrar_msg', (bool) $this->getRequest()->mostrar_msg);
-        $areasConhecimento = implode(',', array_filter($this->getRequest()->areaconhecimento));
+        $areasConhecimento = (is_array($this->getRequest()->areaconhecimento) ? implode(',', array_filter($this->getRequest()->areaconhecimento)) : '');
         $this->report->addArg('areas_conhecimento', trim($areasConhecimento) == '' ? 0 : $areasConhecimento);
     }
 
