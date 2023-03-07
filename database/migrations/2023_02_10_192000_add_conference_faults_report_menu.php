@@ -13,7 +13,7 @@ class AddConferenceFaultsReportMenu extends Migration
     public function up()
     {
         Menu::query()->create([
-            'parent_id' => 326,
+            'parent_id' => 07032023,
             'title' => 'Relatório de conferência de faltas',
             'description' => null,
             'link' => '/module/Reports/ConferenceFaults',
