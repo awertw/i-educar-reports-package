@@ -40,6 +40,7 @@ class StudentsWithDisabilitiesReport extends Portabilis_Report_ReportCore
         $curso = $this->args['curso'] ?: 0;
         $serie = $this->args['serie'] ?: 0;
         $turma = $this->args['turma'] ?: 0;
+        $disabilities = $this->args['disabilities'] ?: 0;
 
         return "
         SELECT aluno.cod_aluno AS cod_aluno,
@@ -96,7 +97,8 @@ INNER JOIN cadastro.fisica_deficiencia ON (fisica_deficiencia.ref_idpes = aluno.
    AND matricula.ano = {$ano}
    AND (CASE WHEN 0={$curso} THEN TRUE ELSE curso.cod_curso = {$curso} END)
    AND (CASE WHEN 0={$serie} THEN TRUE ELSE serie.cod_serie = {$serie} END)
-   AND (CASE WHEN 0={$turma} THEN TRUE ELSE turma.cod_turma = {$turma} END)
+   AND (CASE WHEN 0={$turma} THEN TRUE ELSE turma.cod_turma = {$turma} END)   
+   AND (CASE WHEN {$disabilities} = 0 THEN TRUE ELSE cadastro.fisica_deficiencia.ref_cod_deficiencia = {$disabilities} END)
  GROUP BY aluno.cod_aluno,
           pessoa.nome,
           educacenso_cod_aluno.cod_aluno_inep

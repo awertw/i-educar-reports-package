@@ -26,6 +26,8 @@
 	<parameter name="turma" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[new java.lang.Integer(0)]]></defaultValueExpression>
 	</parameter>
+	<parameter name="disabilities" class="java.lang.Integer">		
+	</parameter>
 	<parameter name="curso" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[new java.lang.Integer(0)]]></defaultValueExpression>
 	</parameter>
