@@ -23,6 +23,10 @@
 	<parameter name="linha" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[new java.lang.Integer(0)]]></defaultValueExpression>
 	</parameter>
+	<parameter name="order_sequential" class="java.lang.Integer"/>
+	<parameter name="serie" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[0]]></defaultValueExpression>
+	</parameter>
 	<parameter name="situacao" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[new java.lang.Integer(0)]]></defaultValueExpression>
 	</parameter>
@@ -35,14 +39,14 @@
 	</parameter>
 	<parameter name="source" class="java.lang.String"/>
 	<queryString language="json">
-		<![CDATA[teacher_report_card_crosstab]]>
+		<![CDATA[teacher_report_card_crosstab(componente_curricular == $P{componente_curricular})]]>
 	</queryString>
+	<field name="componente_curricular" class="java.lang.Integer"/>
 	<field name="cod_matricula" class="java.lang.Double"/>
 	<field name="nome_aluno" class="java.lang.String"/>
 	<field name="dep" class="java.lang.Boolean"/>
 	<field name="nome_modulo" class="java.lang.String"/>
 	<field name="sequencial" class="java.lang.Integer"/>
-	<field name="tipo_nota" class="java.lang.Integer"/>
 	<field name="falta" class="java.lang.String"/>
 	<field name="nome" class="java.lang.String"/>
 	<field name="nota_arredondada_etapa" class="java.lang.String"/>
@@ -62,9 +66,6 @@
 					</reportElement>
 					<crosstabParameter name="data_manual" class="java.lang.Boolean">
 						<parameterValueExpression><![CDATA[$P{data_manual}]]></parameterValueExpression>
-					</crosstabParameter>
-					<crosstabParameter name="tipo_nota" class="java.lang.Object">
-						<parameterValueExpression><![CDATA[$F{tipo_nota}]]></parameterValueExpression>
 					</crosstabParameter>
 					<crosstabDataset isDataPreSorted="true"/>
 					<crosstabHeaderCell>
@@ -290,7 +291,7 @@
 					<measure name="exame" class="java.lang.String">
 						<measureExpression><![CDATA[$F{nota_exame}]]></measureExpression>
 					</measure>
-					<measure name="mediaMeasure" class="java.lang.String">
+					<measure name="media" class="java.lang.String">
 						<measureExpression><![CDATA[$F{media}]]></measureExpression>
 					</measure>
 					<measure name="frequencia" class="java.lang.String">
@@ -368,7 +369,7 @@
 								<textElement verticalAlignment="Middle">
 									<font fontName="DejaVu Sans" size="8" isBold="false"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$V{mediaMeasure} ? $V{mediaMeasure} : "-"]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$V{media} ? $V{media} : "-"]]></textFieldExpression>
 							</textField>
 							<textField isBlankWhenNull="true">
 								<reportElement style="Crosstab Data Text" x="0" y="0" width="39" height="14" uuid="136f4f4f-ca4b-467d-9384-043f183414d9"/>
@@ -440,9 +441,6 @@
 					</reportElement>
 					<crosstabParameter name="data_manual" class="java.lang.Boolean">
 						<parameterValueExpression><![CDATA[$P{data_manual}]]></parameterValueExpression>
-					</crosstabParameter>
-					<crosstabParameter name="tipo_nota" class="java.lang.Object">
-						<parameterValueExpression><![CDATA[$F{tipo_nota}]]></parameterValueExpression>
 					</crosstabParameter>
 					<crosstabDataset isDataPreSorted="true"/>
 					<crosstabHeaderCell>
@@ -668,7 +666,7 @@
 					<measure name="exame" class="java.lang.String">
 						<measureExpression><![CDATA[$F{nota_exame}]]></measureExpression>
 					</measure>
-					<measure name="mediaMeasure" class="java.lang.String">
+					<measure name="media" class="java.lang.String">
 						<measureExpression><![CDATA[$F{media}]]></measureExpression>
 					</measure>
 					<measure name="frequencia" class="java.lang.String">
@@ -746,7 +744,7 @@
 								<textElement verticalAlignment="Middle">
 									<font fontName="DejaVu Sans" size="8" isBold="false"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$V{mediaMeasure} ? $V{mediaMeasure} : "-"]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$V{media} ? $V{media} : "-"]]></textFieldExpression>
 							</textField>
 							<textField isBlankWhenNull="true">
 								<reportElement style="Crosstab Data Text" x="0" y="0" width="39" height="14" uuid="136f4f4f-ca4b-467d-9384-043f183414d9"/>
@@ -818,9 +816,6 @@
 					</reportElement>
 					<crosstabParameter name="data_manual" class="java.lang.Boolean">
 						<parameterValueExpression><![CDATA[$P{data_manual}]]></parameterValueExpression>
-					</crosstabParameter>
-					<crosstabParameter name="tipo_nota" class="java.lang.Object">
-						<parameterValueExpression><![CDATA[$F{tipo_nota}]]></parameterValueExpression>
 					</crosstabParameter>
 					<crosstabDataset isDataPreSorted="true"/>
 					<crosstabHeaderCell>
@@ -1046,7 +1041,7 @@
 					<measure name="exame" class="java.lang.String">
 						<measureExpression><![CDATA[$F{nota_exame}]]></measureExpression>
 					</measure>
-					<measure name="mediaMeasure" class="java.lang.String">
+					<measure name="media" class="java.lang.String">
 						<measureExpression><![CDATA[$F{media}]]></measureExpression>
 					</measure>
 					<measure name="frequencia" class="java.lang.String">
@@ -1124,7 +1119,7 @@
 								<textElement verticalAlignment="Middle">
 									<font fontName="DejaVu Sans" size="8" isBold="false"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$V{mediaMeasure} ? $V{mediaMeasure} : "-"]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$V{media} ? $V{media} : "-"]]></textFieldExpression>
 							</textField>
 							<textField isBlankWhenNull="true">
 								<reportElement style="Crosstab Data Text" x="0" y="0" width="39" height="14" uuid="136f4f4f-ca4b-467d-9384-043f183414d9"/>
@@ -1196,9 +1191,6 @@
 					</reportElement>
 					<crosstabParameter name="data_manual" class="java.lang.Boolean">
 						<parameterValueExpression><![CDATA[$P{data_manual}]]></parameterValueExpression>
-					</crosstabParameter>
-					<crosstabParameter name="tipo_nota" class="java.lang.Object">
-						<parameterValueExpression><![CDATA[$F{tipo_nota}]]></parameterValueExpression>
 					</crosstabParameter>
 					<crosstabDataset isDataPreSorted="true"/>
 					<crosstabHeaderCell>
@@ -1418,13 +1410,13 @@
 					<measure name="falta" class="java.lang.String">
 						<measureExpression><![CDATA[$F{falta}]]></measureExpression>
 					</measure>
-					<measure name="nome_modulo" class="java.lang.String">
+					<measure name="nome_modulo" class="java.lang.String" calculation="First">
 						<measureExpression><![CDATA[$F{nome_modulo}]]></measureExpression>
 					</measure>
 					<measure name="exame" class="java.lang.String">
 						<measureExpression><![CDATA[$F{nota_exame}]]></measureExpression>
 					</measure>
-					<measure name="mediaMeasure" class="java.lang.String">
+					<measure name="media" class="java.lang.String">
 						<measureExpression><![CDATA[$F{media}]]></measureExpression>
 					</measure>
 					<measure name="frequencia" class="java.lang.String">
@@ -1502,7 +1494,7 @@
 								<textElement verticalAlignment="Middle">
 									<font fontName="DejaVu Sans" size="8" isBold="false"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$V{mediaMeasure} ? $V{mediaMeasure} : "-"]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$V{media} ? $V{media} : "-"]]></textFieldExpression>
 							</textField>
 							<textField isBlankWhenNull="true">
 								<reportElement style="Crosstab Data Text" x="0" y="0" width="39" height="14" uuid="136f4f4f-ca4b-467d-9384-043f183414d9"/>
@@ -1571,15 +1563,4 @@
 			</elementGroup>
 		</band>
 	</summary>
-	<noData>
-		<band height="50">
-			<staticText>
-				<reportElement x="0" y="0" width="79" height="11" uuid="ad6aeace-de5e-4d20-8d19-2b7c5b8d1f82"/>
-				<textElement>
-					<font fontName="DejaVu Sans" size="8" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Total de alunos:]]></text>
-			</staticText>
-		</band>
-	</noData>
 </jasperReport>
