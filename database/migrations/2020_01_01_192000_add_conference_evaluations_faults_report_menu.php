@@ -13,7 +13,6 @@ class AddConferenceEvaluationsFaultsReportMenu extends Migration
     public function up()
     {
         Menu::query()->create([
-            'id' => 99900,
             'parent_id' => Menu::query()->where('old', 999922)->firstOrFail()->getKey(),
             'title' => 'Relatório de conferência de notas e faltas',
             'description' => null,
