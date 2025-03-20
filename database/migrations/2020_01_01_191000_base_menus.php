@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Menu;
+use App\Menu;
 use App\Process;
 use Illuminate\Database\Migrations\Migration;
 
